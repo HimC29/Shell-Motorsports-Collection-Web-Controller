@@ -186,6 +186,9 @@ Shell-Motorsports-Collection-Web-Controller/
 
 ## 📝 Changelog
 
+### v1.2.0
+- ⌨️ Added WASD and arrow key support
+
 ### v1.1.0
 - 🔋 Battery indicator with real-time updates
 - 🏗️ Modular file structure (bluetooth.js, command.js, crypto.js)

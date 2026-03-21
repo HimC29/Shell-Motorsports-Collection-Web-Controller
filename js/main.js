@@ -35,6 +35,17 @@ const keys = {
 };
 let turbo = false;
 
+const keyMap = {
+    'ArrowUp': 'forward',
+    'ArrowDown': 'backward',
+    'ArrowLeft': 'left',
+    'ArrowRight': 'right',
+    'w': 'forward',
+    's': 'backward',
+    'a': 'left',
+    'd': 'right'
+};
+
 function pressKey(key, el) {
     if (!connected) return;
     keys[key] = true;
@@ -57,6 +68,13 @@ document.querySelectorAll('#controls button').forEach(btn => {
 
 async function sendCommand(forward, backward, left, right, turbo) {
     await ctrlChar.writeValue(fromHex(encryptHex(toHex(buildCommand(forward, backward, left, right, turbo)))));
+}
+
+function toggleTurbo() {
+    if (!connected) return;
+    turbo = !turbo;
+    turboBtn.textContent = turbo ? "Turbo ON" : "Turbo OFF";
+    turboBtn.classList.toggle("turbo-on", turbo);
 }
 
 connectBtn.addEventListener("click", async () => {
@@ -105,9 +123,25 @@ connectBtn.addEventListener("click", async () => {
     }
 });
 
-turboBtn.addEventListener("click", () => {
-    if (!connected) return;
-    turbo = !turbo;
-    turboBtn.textContent = turbo ? "Turbo ON" : "Turbo OFF";
-    turboBtn.classList.toggle("turbo-on", turbo);
+document.addEventListener('keydown', e => {
+    e.preventDefault();
+    const key = keyMap[e.key];
+    if (!key) return;
+    const btn = document.querySelector(`[data-key="${key}"]`);
+    pressKey(key, btn);
 });
+
+document.addEventListener('keyup', e => {
+    e.preventDefault();
+    const key = keyMap[e.key];
+    if (!key) {
+        if(e.key.toUpperCase() == "T") {
+            toggleTurbo();
+        }
+        return
+    }
+    const btn = document.querySelector(`[data-key="${key}"]`);
+    releaseKey(key, btn);
+});
+
+turboBtn.addEventListener("click", toggleTurbo);
