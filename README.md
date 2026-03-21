@@ -26,6 +26,9 @@
 🎮 **Custom Controls**  
 WASD button layout optimized for mobile
 
+🔋 **Battery Indicator**  
+Real-time battery level display from the car
+
 🔵 **Web Bluetooth**  
 Connects directly from your browser, no app needed
 
@@ -181,6 +184,21 @@ Shell-Motorsports-Collection-Web-Controller/
 
 ---
 
+## 📝 Changelog
+
+### v1.1.0
+- 🔋 Battery indicator with real-time updates
+- 🏗️ Modular file structure (bluetooth.js, command.js, crypto.js)
+- 🔌 Improved connection and disconnection handling
+
+### v1.0.0
+- 🎉 Initial release
+- Basic forward, backward, left, right controls
+- Turbo mode
+- Connect / Disconnect
+
+---
+
 ## 🤝 Contributing
 
 Contributions are welcome! If you have a different Shell RC car model and want to test compatibility, open an issue or PR.
@@ -205,7 +223,6 @@ Contributions are welcome! If you have a different Shell RC car model and want t
 ### Ideas for Contributions
 
 - 🎨 Better UI / themes
-- 🔋 Battery level display
 - 📳 Haptic feedback on mobile
 - 🕹️ Virtual joystick instead of buttons
 - 🚗 USB-C model support

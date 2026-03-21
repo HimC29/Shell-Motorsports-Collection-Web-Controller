@@ -1,3 +1,5 @@
+import { decryptHex, toHex, fromHex } from "./crypto.js";
+
 const uuid = "0000fff0-0000-1000-8000-00805f9b34fb";
 const ctrlUuid = "d44bc439-abfd-45a2-b575-925416129600";
 const battUuid = "d44bc439-abfd-45a2-b575-925416129601";
@@ -9,13 +11,22 @@ function reqQcar() {
     });
 }
 
-export async function connectQcar() {
+export async function connectQcar(onBatteryUpdate) {
     const device = await reqQcar();
     const server = await device.gatt.connect();
     const service = await server.getPrimaryService(uuid);
     const ctrlChar = await service.getCharacteristic(ctrlUuid);
     const battChar = await service.getCharacteristic(battUuid);
     
+    await battChar.startNotifications();
+
+    battChar.addEventListener("characteristicvaluechanged", (e) => {
+        const hex = toHex(new Uint8Array(e.target.value.buffer));
+        const decrypted = fromHex(decryptHex(hex));
+        const percentage = decrypted[4];
+        onBatteryUpdate(percentage);
+    });
+
     return { server, service, ctrlChar, battChar };
 }
 

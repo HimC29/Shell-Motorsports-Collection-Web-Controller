@@ -5,12 +5,16 @@ import { toHex, fromHex, encryptHex } from './crypto.js';
 const connectBtn = document.getElementById("connect");
 const turboBtn = document.getElementById("turbo");
 const controls = document.getElementById("controls");
+const batteryContainer = document.getElementById("batteryContainer");
+const batteryDisplay = document.getElementById("batteryDisplay");
+const batteryFill = document.getElementById("batteryFill");
 
 function setConnectedState(isConnected) {
     connected = isConnected;
     connectBtn.textContent = isConnected ? "Disconnect" : "Connect";
     controls.classList.toggle("disabled", !isConnected);
     turboBtn.classList.toggle("disabled", !isConnected);
+    batteryContainer.style.display = isConnected ? "flex" : "none";
 }
 
 let server;
@@ -57,7 +61,11 @@ async function sendCommand(forward, backward, left, right, turbo) {
 connectBtn.addEventListener("click", async () => {
     if(connected == false) {
         try {
-            const result = await connectQcar();
+            const result = await connectQcar((batteryPct) => {
+                batteryDisplay.textContent = batteryPct + "%";
+                batteryFill.style.width = batteryPct + "%";
+                batteryFill.style.background = batteryPct > 60 ? "#16a34a" : batteryPct > 25 ? "#ca8a04" : "#dc2626";
+            });
             server = result.server;
             service = result.service;
             ctrlChar = result.ctrlChar;

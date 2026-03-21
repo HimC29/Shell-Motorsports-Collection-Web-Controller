@@ -21,3 +21,16 @@ export function fromHex(hexString) {
         hexString.match(/.{1,2}/g).map(b => parseInt(b, 16))
     );
 }
+
+export function decryptHex(hexString) {
+    const data = CryptoJS.enc.Hex.parse(hexString);
+    const key = CryptoJS.enc.Hex.parse(AES_KEY);
+
+    const decrypted = CryptoJS.AES.decrypt(
+        { ciphertext: data },
+        key,
+        { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.NoPadding }
+    );
+
+    return decrypted.toString();
+}
