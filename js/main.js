@@ -52,6 +52,7 @@ document.querySelectorAll('#controls button').forEach(btn => {
     btn.addEventListener('mouseup', () => releaseKey(key, btn));
     btn.addEventListener('touchstart', e => { e.preventDefault(); pressKey(key, btn); });
     btn.addEventListener('touchend', () => releaseKey(key, btn));
+    btn.addEventListener("mouseleave", () => {if(!keys[key]) return; releaseKey(key, btn)});
 });
 
 async function sendCommand(forward, backward, left, right, turbo) {
