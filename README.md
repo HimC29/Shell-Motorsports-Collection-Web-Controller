@@ -186,6 +186,9 @@ Shell-Motorsports-Collection-Web-Controller/
 
 ## 📝 Changelog
 
+### v1.2.1
+- 🐛 Fixed initial movement glitch after connecting
+
 ### v1.2.0
 - ⌨️ Added WASD and arrow key support
 

@@ -85,6 +85,10 @@ connectBtn.addEventListener("click", async () => {
                 batteryFill.style.width = batteryPct + "%";
                 batteryFill.style.background = batteryPct > 60 ? "#16a34a" : batteryPct > 25 ? "#ca8a04" : "#dc2626";
             });
+
+            // wait 500ms before starting to send
+            await new Promise(resolve => setTimeout(resolve, 500));
+
             server = result.server;
             service = result.service;
             ctrlChar = result.ctrlChar;
