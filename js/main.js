@@ -17,6 +17,13 @@ function setConnectedState(isConnected) {
     batteryContainer.style.display = isConnected ? "flex" : "none";
 }
 
+const vibration = {
+    press:      40,
+    release:    20,
+    turbo:      [40, 30, 40],
+    connect:    [50, 30, 80],
+    disconnect: 60,
+};
 let server;
 let service;
 
@@ -50,11 +57,13 @@ function pressKey(key, el) {
     if (!connected) return;
     keys[key] = true;
     el.classList.add('active');
+    navigator.vibrate(vibration.press);
 }
 
 function releaseKey(key, el) {
     keys[key] = false;
     el.classList.remove('active');
+    navigator.vibrate(vibration.release);
 }
 
 document.querySelectorAll('#controls button').forEach(btn => {
@@ -63,7 +72,7 @@ document.querySelectorAll('#controls button').forEach(btn => {
     btn.addEventListener('mouseup', () => releaseKey(key, btn));
     btn.addEventListener('touchstart', e => { e.preventDefault(); pressKey(key, btn); });
     btn.addEventListener('touchend', () => releaseKey(key, btn));
-    btn.addEventListener("mouseleave", () => {if(!keys[key]) return; releaseKey(key, btn)});
+    btn.addEventListener("mouseleave", () => { if (!keys[key]) return; releaseKey(key, btn); });
 });
 
 async function sendCommand(forward, backward, left, right, turbo) {
@@ -75,6 +84,7 @@ function toggleTurbo() {
     turbo = !turbo;
     turboBtn.textContent = turbo ? "Turbo ON" : "Turbo OFF";
     turboBtn.classList.toggle("turbo-on", turbo);
+    navigator.vibrate(vibration.turbo);
 }
 
 connectBtn.addEventListener("click", async () => {
@@ -100,6 +110,7 @@ connectBtn.addEventListener("click", async () => {
                 setConnectedState(false);
             });
             setConnectedState(true);
+            navigator.vibrate(vibration.connect);
 
             setInterval(async () => {
                 if (!ctrlChar || sending) return;
@@ -119,6 +130,7 @@ connectBtn.addEventListener("click", async () => {
         try {
             disconnectQcar(server);
             setConnectedState(false);
+            navigator.vibrate(vibration.disconnect);
         }
         catch(e) {
             setConnectedState(true);

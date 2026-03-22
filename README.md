@@ -186,6 +186,9 @@ Shell-Motorsports-Collection-Web-Controller/
 
 ## 📝 Changelog
 
+### v1.3.0
+- 📳 Haptic feedback on button presses
+
 ### v1.2.1
 - 🐛 Fixed initial movement glitch after connecting
 
